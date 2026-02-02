@@ -1,42 +1,22 @@
 import { useState } from "react";
 import "./App.css";
+
 export default function Todo() {
   const [task, setTask] = useState("");
   const [todos, setTodos] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
 
-  const addOrUpdateTodo = () => {
-    if (!task.trim()) return;
+  const addOrUpdateTodo = () => {};
 
-    if (editIndex !== null) {
-      const updatedTodos = [...todos];
-      updatedTodos[editIndex] = task;
-      setTodos(updatedTodos);
-      setEditIndex(null);
-    } else {
-      setTodos([...todos, task]);
-    }
-    setTask("");
-  };
+  const editTodo = (index) => {};
 
-  const editTodo = (index) => {
-    setTask(todos[index]);
-    setEditIndex(index);
-  };
-
-  const deleteTodo = (index) => {
-    setTodos(todos.filter((_, i) => i !== index));
-    if (editIndex === index) {
-      setTask("");
-      setEditIndex(null);
-    }
-  };
+  const deleteTodo = (index) => {};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-600 via-purple-600 to-pink-500 px-4">
       <div className="w-full max-w-md bg-white/20 backdrop-blur-xl border border-white/30 rounded-3xl p-6 shadow-2xl">
         <h1 className="text-2xl font-bold text-white text-center mb-5">
-          Todo<span className="text-yellow-300">ify</span>
+          Task<span className="text-yellow-300">ify</span>
         </h1>
 
         <div className="flex gap-2 mb-4">
