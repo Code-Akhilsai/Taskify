@@ -78,8 +78,8 @@ export default function Todo() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-600 via-purple-600 to-pink-500 px-4">
-      <div className="w-full max-w-md bg-white/20 backdrop-blur-xl border border-white/30 rounded-3xl p-6 shadow-2xl">
-        <h1 className="text-2xl font-bold text-white text-center mb-5">
+      <div className="w-full max-w-md bg-white/20 backdrop-blur-xl border border-white/30 rounded-3xl p-6 shadow-2xl -mt-60">
+        <h1 className="text-2xl font-bold text-white text-center mb-5 ">
           Task<span className="text-yellow-300">ify</span>
         </h1>
 
@@ -109,7 +109,7 @@ export default function Todo() {
                 {editId !== item._id ? (
                   // Normal Mode
                   <div className="bg-white/80 rounded-xl px-4 py-2 text-gray-800 flex items-start gap-3">
-                    <p className="flex-1 break-words">{item.task}</p>
+                    <p className="flex-1 wrap-break-word">{item.task}</p>
 
                     <button
                       onClick={() => StartEdit(item)}
