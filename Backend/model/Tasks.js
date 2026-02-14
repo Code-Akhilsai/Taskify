@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema({
-  username: String,
-  email: String,
-  password: String,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   task: String,
 });
 
-export default mongoose.model("Tasks", taskSchema);
+export default mongoose.model("Task", taskSchema);

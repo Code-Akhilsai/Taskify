@@ -1,18 +1,41 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const nav = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+
+    if (!email || !password) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await axios.post("http://localhost:3000/login", {
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", res.data.token);
+
+      nav("/todo");
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data.message);
+      } else {
+        alert("Server error");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -28,39 +51,35 @@ function Login() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="email"
-            name="email"
-            placeholder="Email Address"
-            value={form.email}
-            onChange={handleChange}
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-800 outline-none focus:ring-2 focus:ring-yellow-400"
           />
 
           <input
             type="password"
-            name="password"
             placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-800 outline-none focus:ring-2 focus:ring-yellow-400"
           />
 
-          <div className="flex justify-between items-center text-sm text-white/80">
-            <span className="cursor-pointer hover:underline">
-              Forgot password?
-            </span>
-          </div>
-
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold transition active:scale-95"
+            disabled={loading}
+            className="w-full py-3 rounded-xl bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold transition active:scale-95 disabled:opacity-50"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <p className="text-center text-white/80 text-sm mt-6">
           Don’t have an account?
-          <span className="text-yellow-300 font-medium cursor-pointer ml-1">
+          <span
+            onClick={() => nav("/signup")}
+            className="text-yellow-300 font-medium cursor-pointer ml-1"
+          >
             Sign Up
           </span>
         </p>

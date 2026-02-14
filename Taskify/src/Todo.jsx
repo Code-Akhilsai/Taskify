@@ -8,9 +8,15 @@ export default function Todo() {
   const [editId, setEditId] = useState(null);
   const [updateTask, setUpdateTask] = useState("");
 
+  const token = localStorage.getItem("token");
+
   const FetchTask = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/Fetch");
+      const res = await axios.get("http://localhost:3000/Fetch", {
+        headers: {
+          authorization: token,
+        },
+      });
       setTodos(res.data);
     } catch (err) {
       console.log(err);
@@ -20,7 +26,15 @@ export default function Todo() {
   const AddTask = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/Add", { task });
+      await axios.post(
+        "http://localhost:3000/Add",
+        { task },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
       setTask("");
       FetchTask();
     } catch (err) {
@@ -30,7 +44,11 @@ export default function Todo() {
 
   const DeleteTodo = async (_id) => {
     try {
-      await axios.delete(`http://localhost:3000/Delete/${_id}`);
+      await axios.delete(`http://localhost:3000/Delete/${_id}`, {
+        headers: {
+          authorization: token,
+        },
+      });
       FetchTask();
     } catch (err) {
       console.log(err);
@@ -44,14 +62,25 @@ export default function Todo() {
 
   const UpdateTask = async (_id) => {
     try {
-      await axios.put(`http://localhost:3000/Update/${_id}`, {
-        task: updateTask,
-      });
+      await axios.put(
+        `http://localhost:3000/Update/${_id}`,
+        { task: updateTask },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      setEditId(null);
+      FetchTask();
     } catch (err) {
       console.log(err);
     }
   };
-  useEffect(() => FetchTask);
+
+  useEffect(() => {
+    FetchTask();
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-600 via-purple-600 to-pink-500 px-4">
@@ -83,7 +112,7 @@ export default function Todo() {
               <div key={item._id}>
                 {editId !== item._id ? (
                   <div className="bg-white/80 rounded-xl px-4 py-2 text-gray-800 flex items-start gap-3">
-                    <p className="flex-1 wrap-break-word">{item.task}</p>
+                    <p className="flex-1 break-words">{item.task}</p>
 
                     <button
                       onClick={() => StartEdit(item)}
