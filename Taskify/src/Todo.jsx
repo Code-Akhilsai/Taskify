@@ -22,7 +22,7 @@ export default function Todo() {
     try {
       await axios.post("http://localhost:3000/Add", { task });
       setTask("");
-      FetchTask(); // 🔥 always refetch
+      FetchTask();
     } catch (err) {
       console.log(err);
     }
@@ -31,7 +31,7 @@ export default function Todo() {
   const DeleteTodo = async (_id) => {
     try {
       await axios.delete(`http://localhost:3000/Delete/${_id}`);
-      FetchTask(); // 🔥 always refetch
+      FetchTask();
     } catch (err) {
       console.log(err);
     }
@@ -47,8 +47,6 @@ export default function Todo() {
       await axios.put(`http://localhost:3000/Update/${_id}`, {
         task: updateTask,
       });
-
-      // 🔥 always refetch
     } catch (err) {
       console.log(err);
     }
@@ -85,7 +83,7 @@ export default function Todo() {
               <div key={item._id}>
                 {editId !== item._id ? (
                   <div className="bg-white/80 rounded-xl px-4 py-2 text-gray-800 flex items-start gap-3">
-                    <p className="flex-1 break-words">{item.task}</p>
+                    <p className="flex-1 wrap-break-word">{item.task}</p>
 
                     <button
                       onClick={() => StartEdit(item)}

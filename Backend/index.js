@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import Tasks from "./model/Tasks.js";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 
 dotenv.config();
 const app = express();
@@ -13,6 +14,17 @@ app.use(express.json());
 await mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("DB connected"));
+
+app.post("/signup", async (req, res) => {
+  const { name, email, password } = req.body;
+
+  try {
+    const hashpass = await bcrypt.hash(password, 10);
+    await Tasks.create({ name, email, password: hashpass });
+  } catch (error) {
+    res.status("404");
+  }
+});
 
 app.post("/Add", async (req, res) => {
   const { task } = req.body;
