@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 app.use(
   cors({
-    origin: "https://taskify143.netlify.app/",
+    origin: "https://taskify143.netlify.app",
     credentials: true,
   })
 );
