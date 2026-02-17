@@ -10,6 +10,7 @@ import Task from "./model/Tasks.js";
 dotenv.config();
 const app = express();
 
+const port = process.env.PORT || 5000;
 app.use(
   cors({
     origin: "https://taskify143.netlify.app/",
@@ -155,4 +156,4 @@ app.put("/Update/:id", auth, async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+app.listen(port, () => console.log("Server running on port 3000"));
