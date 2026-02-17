@@ -12,7 +12,7 @@ export default function Todo() {
 
   const FetchTask = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/Fetch", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/Fetch`, {
         headers: {
           authorization: token,
         },
@@ -27,7 +27,7 @@ export default function Todo() {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:3000/Add",
+        `${import.meta.env.VITE_API_URL}Add`,
         { task },
         {
           headers: {
@@ -44,7 +44,7 @@ export default function Todo() {
 
   const DeleteTodo = async (_id) => {
     try {
-      await axios.delete(`http://localhost:3000/Delete/${_id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}Delete/${_id}`, {
         headers: {
           authorization: token,
         },
@@ -63,7 +63,7 @@ export default function Todo() {
   const UpdateTask = async (_id) => {
     try {
       await axios.put(
-        `http://localhost:3000/Update/${_id}`,
+        `${import.meta.env.VITE_API_URL}Update/${_id}`,
         { task: updateTask },
         {
           headers: {
