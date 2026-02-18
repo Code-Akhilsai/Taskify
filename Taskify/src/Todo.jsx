@@ -27,7 +27,7 @@ export default function Todo() {
     e.preventDefault();
     try {
       await axios.post(
-        `${import.meta.env.VITE_API_URL}Add`,
+        `${import.meta.env.VITE_API_URL}/Add`,
         { task },
         {
           headers: {
@@ -44,7 +44,7 @@ export default function Todo() {
 
   const DeleteTodo = async (_id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}Delete/${_id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/Delete/${_id}`, {
         headers: {
           authorization: token,
         },
@@ -63,7 +63,7 @@ export default function Todo() {
   const UpdateTask = async (_id) => {
     try {
       await axios.put(
-        `${import.meta.env.VITE_API_URL}Update/${_id}`,
+        `${import.meta.env.VITE_API_URL}/Update/${_id}`,
         { task: updateTask },
         {
           headers: {
